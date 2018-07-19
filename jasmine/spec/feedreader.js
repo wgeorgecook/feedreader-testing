@@ -102,7 +102,6 @@ $(function() {
         // child has an entry associated with it
         it('should be populated', function(done) {
             var feed = $('.feed');
-            var entry = $('.entry');
             expect(feed.children(0).hasClass('entry-link')).toBe(true);
             done();
         });
@@ -115,8 +114,29 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        it('should display correct content', function() {
-            // magic
+
+        var feed = $('.feed');
+        // Call the loadFeed function before each spec
+        beforeEach(function(done) {
+            loadFeed(0, function() {
+                done();
+            });
+        });
+
+
+        it('should update content', function(done) {
+            // Save the first entry URL before loading the new feed
+            var firstUrlBefore = feed.children(0)[0].href;
+
+            // Load a new feed
+            loadFeed(1);
+
+            // Save the new first entry URL
+            var nowUrl = feed.children(0)[0].href;
+
+            // Compare the new first entry URL to the saved first one
+            expect(firstUrlBefore).not.toEqual(nowUrl);
+            done();
         });
     });
 
