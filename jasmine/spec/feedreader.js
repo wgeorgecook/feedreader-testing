@@ -34,7 +34,7 @@ $(function() {
         it('should have associated urls', function() {
             for (item of allFeeds) {
                 expect(item.url).toBeDefined();
-                expect(item.url).not.toBe('');
+                expect(item.url.length).not.toBe(0);
             };
         });
 
@@ -46,7 +46,7 @@ $(function() {
         it('should have associated names', function() {
             for (item of allFeeds) {
                 expect(item.name).toBeDefined();
-                expect(item.name).not.toBe('');
+                expect(item.name.length).not.toBe(0);
             };
         });
     });
@@ -59,8 +59,10 @@ $(function() {
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
+        var bodyEl = $('body');
         it('should be hidden by default', function() {
-            // look for the display attribute 
+            // Check for the menu-hidden class on the body
+            expect(bodyEl.hasClass('menu-hidden')).toBe(true);
         });
 
          /* TODO: Write a test that ensures the menu changes
@@ -68,9 +70,14 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
-        it('should display when menu is clicked', function() {
-            // call the menuIcon.onclick function from app.js
-            // and check for display attribute
+        it('should display and hide when menu is clicked', function() {
+            // Make sure the body loses the menu-hidden class when we
+            // click the menuIcon
+            var menuIcon = $('.menu-icon-link');
+            menuIcon.trigger('click');
+            expect(bodyEl.hasClass('menu-hidden')).toBe(false);
+            menuIcon.trigger('click');
+            expect(bodyEl.hasClass('menu-hidden')).toBe(true);
         });
         
     });
