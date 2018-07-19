@@ -90,8 +90,21 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-        it('should have entries', function() {
-            // do magic
+
+         // Call the loadFeed function before each spec
+        beforeEach(function(done) {
+            loadFeed(0, function() {
+                done();
+            });
+        });
+
+        // Check the feed element for children, and make sure the first
+        // child has an entry associated with it
+        it('should be populated', function(done) {
+            var feed = $('.feed');
+            var entry = $('.entry');
+            expect(feed.children(0).hasClass('entry-link')).toBe(true);
+            done();
         });
     });
 
