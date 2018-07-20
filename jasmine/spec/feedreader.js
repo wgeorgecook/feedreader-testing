@@ -59,7 +59,7 @@ $(function() {
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
-        var bodyEl = $('body');
+        const bodyEl = $('body');
         it('should be hidden by default', function() {
             // Check for the menu-hidden class on the body
             expect(bodyEl.hasClass('menu-hidden')).toBe(true);
@@ -73,7 +73,7 @@ $(function() {
         it('should display and hide when menu is clicked', function() {
             // Make sure the body loses the menu-hidden class when we
             // click the menuIcon
-            var menuIcon = $('.menu-icon-link');
+            const menuIcon = $('.menu-icon-link');
             menuIcon.trigger('click');
             expect(bodyEl.hasClass('menu-hidden')).toBe(false);
             menuIcon.trigger('click');
@@ -101,7 +101,7 @@ $(function() {
         // Check the feed element for children, and make sure the first
         // child has an entry associated with it
         it('should be populated', function(done) {
-            var feed = $('.feed');
+            const feed = $('.feed');
             expect(feed.children(0).hasClass('entry-link')).toBe(true);
             done();
         });
@@ -114,28 +114,31 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-
-        var feed = $('.feed');
+        const feed = $('.feed');
+        let urlNow;
+        let urlBefore;
+        
+       
         // Call the loadFeed function before each spec
         beforeEach(function(done) {
             loadFeed(0, function() {
+                // Save the first entry URL before loading the new feed
+                urlBefore = feed.children(0)[0].href;
                 done();
             });
         });
 
-
+        beforeEach(function(done) {
+            loadFeed(1, function() {
+                // Save the new first entry URL
+                urlNow = feed.children(0)[0].href;
+                done();
+            });
+        });
+     
         it('should update content', function(done) {
-            // Save the first entry URL before loading the new feed
-            var firstUrlBefore = feed.children(0)[0].href;
-
-            // Load a new feed
-            loadFeed(1);
-
-            // Save the new first entry URL
-            var nowUrl = feed.children(0)[0].href;
-
             // Compare the new first entry URL to the saved first one
-            expect(firstUrlBefore).not.toEqual(nowUrl);
+            expect(urlBefore).not.toEqual(urlNow);
             done();
         });
     });
