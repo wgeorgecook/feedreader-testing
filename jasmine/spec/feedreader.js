@@ -103,18 +103,15 @@ $(function() {
             loadFeed(0, function() {
                 // Save the first entry URL before loading the new feed
                 urlBefore = feed.children(0)[0].href;
+                // load the second feed and check the first entry
+                loadFeed(1, function() {
+                    urlNow = feed.children(0)[0].href;
+                }); 
+
                 done();
             });
         });
 
-        beforeEach(function(done) {
-            loadFeed(1, function() {
-                // Save the new first entry URL
-                urlNow = feed.children(0)[0].href;
-                done();
-            });
-        });
-     
         it('should update content', function(done) {
             // Compare the new first entry URL to the saved first one
             expect(urlBefore).not.toEqual(urlNow);
