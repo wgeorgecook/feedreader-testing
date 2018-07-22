@@ -76,9 +76,7 @@ $(function() {
         // Ensures that the initial items have properties
         // Call the loadFeed function before each spec
         beforeEach(function(done) {
-            loadFeed(0, function() {
-                done();
-            });
+            loadFeed(0, done);
         });
 
         // Check the feed element for children, and make sure the first
@@ -106,9 +104,8 @@ $(function() {
                 // load the second feed and check the first entry
                 loadFeed(1, function() {
                     urlNow = feed.children(0)[0].href;
+                    done();
                 }); 
-
-                done();
             });
         });
 
